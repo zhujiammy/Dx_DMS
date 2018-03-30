@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#00796B</color>
+    <color name="colorAccent">#009688</color>
+    <color name="white">#ffffff</color>
+    <color name="base">#AAAAAA</color>
+    <color name="monsoon">#777777</color>
+    <color name="textcolor_t">#393838</color>
+    <color name="menu_item_press">#2e000000</color>
+    <color name="del_color">#ea4949</color>
+    <color name="primary">#3bc7b2</color>
+    <color name="primary_dark">#f4f8ff</color>
+    <color name="primary_darker">#3bc7b2</color>
+    <color name="accent">#FFFFFF</color>
+    <color name="iron">#CCCCCC</color>
+    <color name="page_backgroup">#f2f2f2</color>
+    <color name="btn_inf_f">#9f9f9f</color>
+    <color name="camera_pop_normal">#5DB8FE</color>
+    <color name="btn_info">#147078</color>
+    <color name="text_color">#ef7777</color>
+    <color name="apply">#e48b58</color>
+    <color name="confirm">#8e6ae2</color>
+    <color name="finish">#25a79f</color>
+    <color name="create">#FF7F50</color>
+    <color name="pending">#9B30FF</color>
+    <color name="color1">#a6d6e7</color>
+    <color name="color2">#a6d6e7</color>
+    <color name="blue">#a90d00ff</color>
+    <color name="cancelled">#7B7B7B</color>
+    <color name="yrk">#25a79f</color>
+    <color name="blue1">#3975ef</color>
+    <color name="blue2">#479df5</color>
+
+</resources>

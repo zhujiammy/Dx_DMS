@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+ <!--   <TextView
+        android:textColor="@color/monsoon"
+        android:drawableLeft="@mipmap/edpass"
+        android:id="@+id/etpass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/editpassword"
+        android:textSize="18sp" />-->
+
+    <TextView
+        android:textColor="@color/monsoon"
+        android:drawableLeft="@mipmap/out"
+        android:id="@+id/out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text=" 退出"
+        android:textSize="20sp" />
+
+</LinearLayout>

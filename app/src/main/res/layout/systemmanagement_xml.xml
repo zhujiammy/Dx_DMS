@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <android.support.v7.widget.Toolbar
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            >
+
+            <TextView
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="系统管理"
+                android:layout_centerInParent="true"
+                />
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:background="@color/base"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/Jurisdiction_btn"
+                android:background="@color/white"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text=" 权限定义"
+                android:drawableRight="@mipmap/next"
+                android:paddingLeft="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@mipmap/jurisdiction"
+                android:gravity="center_vertical"
+                />
+
+
+            <TextView
+                android:id="@+id/role_btn"
+                android:background="@color/white"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text=" 角色定义"
+                android:drawableRight="@mipmap/next"
+                android:paddingLeft="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@mipmap/role"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/user_btn"
+                android:background="@color/white"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text=" 用户管理"
+                android:drawableRight="@mipmap/next"
+                android:paddingLeft="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@mipmap/usermg"
+                android:gravity="center_vertical"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

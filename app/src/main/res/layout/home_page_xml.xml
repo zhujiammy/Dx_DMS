@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:background="#e9f5f4"
+        android:layout_weight="1.9"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/touxiang"
+                android:layout_centerInParent="true"
+                app:civ_border_width="1dp"
+                />
+
+            <TextView
+                android:id="@+id/balance"
+                android:layout_marginBottom="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:text="lvshu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+
+        <com.example.zhujia.dx_dms.Tools.FixedGridLayout
+            android:id="@+id/grid"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cellHeight="100dp"
+            app:cellWidth="110dp"
+            >
+         <LinearLayout
+
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+             <com.example.zhujia.dx_dms.Tools.MaskableImageView
+
+                 android:id="@+id/groupinformation_btn"
+                 android:layout_width="50dp"
+                 android:layout_height="48dp"
+                 android:layout_gravity="center"
+                 android:layout_marginBottom="5dp"
+                 android:src="@mipmap/groupinformation"
+                 android:text="page1"
+                 android:textColor="@color/monsoon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="集团管理"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.example.zhujia.dx_dms.Tools.MaskableImageView
+
+                    android:id="@+id/systemmanagement_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:src="@mipmap/systemmanagement"
+                    android:text="page1"
+                    android:textColor="@color/monsoon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="系统管理"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.example.zhujia.dx_dms.Tools.MaskableImageView
+
+                    android:id="@+id/productmanagement_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:src="@mipmap/cpgl"
+                    android:text="page1"
+                    android:textColor="@color/monsoon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="产品管理"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </com.example.zhujia.dx_dms.Tools.FixedGridLayout>
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
