@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zhujia.dx_dms.Adapter.ProductListAdapter;
+import com.example.zhujia.dx_dms.Adapter.ProductTypeAdapter;
 import com.example.zhujia.dx_dms.Data.Data;
 import com.example.zhujia.dx_dms.R;
 import com.example.zhujia.dx_dms.Tools.Net.Constant;
@@ -38,10 +39,10 @@ import java.util.List;
 
 /**
  * Created by ZHUJIA on 2018/3/14.
- * 产品列表
+ * 类型列表
  */
 
-public class ProductListActivity extends AppCompatActivity implements View.OnClickListener,OnRefreshListener,OnLoadMoreListener {
+public class ProductTypeActivity extends AppCompatActivity implements View.OnClickListener,OnRefreshListener,OnLoadMoreListener {
 
 
     private Toolbar toolbar;
@@ -56,7 +57,7 @@ public class ProductListActivity extends AppCompatActivity implements View.OnCli
     JSONObject reslutJSONObject;
     JSONArray contentjsonarry;
     public static final int  REQUEST_CODE=1001;
-    private ProductListAdapter adapter;
+    private ProductTypeAdapter adapter;
     private  int total;
     private Intent intent;
     private SuperRefreshRecyclerView recyclerView;
@@ -66,7 +67,7 @@ public class ProductListActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.productlist_xml);
+        setContentView(R.layout.producttype_xml);
         intent=getIntent();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -83,8 +84,7 @@ public class ProductListActivity extends AppCompatActivity implements View.OnCli
         type=intent.getStringExtra("type");
         initUI();
         loaddata();//加载列表数据
-        loadstatue();
-        adapter=new ProductListAdapter(this,getData());
+        adapter=new ProductTypeAdapter(this,getData());
 
     }
 
@@ -99,48 +99,26 @@ public class ProductListActivity extends AppCompatActivity implements View.OnCli
         recyclerView.setHasFixedSize(true);
         text=(TextView) findViewById(R.id.text1);
 
-        text.setText("产品列表");
+        text.setText("类型列表");
 
 
 
     }
 
 
-    private void  loadstatue(){
-        new HttpUtils().Post(Constant.APPURLS+"product/productsku/query/status",token,new HttpUtils.HttpCallback() {
-            @Override
-            public void onSuccess(String data) {
-                // TODO Auto-generated method stub
-                com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
-
-                Message msg= Message.obtain(
-                        mHandler,6,data
-                );
-                mHandler.sendMessage(msg);
-            }
-
-        });
-    }
 
     private void loaddata(){
         object = new JSONObject();
         pager=new JSONObject();
-      /*  try {
-            //object.put("id","1");
-           *//* JSONArray jsonArray=new JSONArray();
-            pager.put("searchCreateTimeBegin","");
-            pager.put("searchCreateTimeEnd","");
-            pager.put("likeCompanyCode","");
-            pager.put("likeCompanyName","");
-            pager.put("likeShortName","");
-            pager.put("searchGroupId",jsonArray);
-            pager.put("searchStatus",jsonArray);*//*
+        try {
+            pager.put("id","");
+            pager.put("likeTypeName","");
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
+        }
         String json=pager.toString();
         String params="currentPage="+pageindex+"&"+"pageSize="+"15"+"&"+"sortName="+"id"+"&"+"sortType="+"desc";
-        new HttpUtils().postJson(Constant.APPURLS+"product/productsku/page?"+params,json,token,new HttpUtils.HttpCallback() {
+        new HttpUtils().postJson(Constant.APPURLS+"product/producttype/page?"+params,json,token,new HttpUtils.HttpCallback() {
 
             @Override
             public void onSuccess(String data) {
@@ -163,22 +141,15 @@ public class ProductListActivity extends AppCompatActivity implements View.OnCli
     private void initItemMoreData() {
         object = new JSONObject();
         pager=new JSONObject();
-     /*   try {
-            //object.put("id","1");
-            JSONArray jsonArray=new JSONArray();
-            pager.put("searchCreateTimeBegin","");
-            pager.put("searchCreateTimeEnd","");
-            pager.put("likeCompanyCode","");
-            pager.put("likeCompanyName","");
-            pager.put("likeShortName","");
-            pager.put("searchGroupId",jsonArray);
-            pager.put("searchStatus",jsonArray);
+        try {
+            pager.put("id","");
+            pager.put("likeTypeName","");
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
+        }
         String json=pager.toString();
         String params="currentPage="+pageindex+1+"&"+"pageSize="+"15"+"&"+"sortName="+"id"+"&"+"sortType="+"desc";
-        new HttpUtils().postJson(Constant.APPURLS+"product/productsku/page?"+params,json,token,new HttpUtils.HttpCallback() {
+        new HttpUtils().postJson(Constant.APPURLS+"product/producttype/page?"+params,json,token,new HttpUtils.HttpCallback() {
 
             @Override
             public void onSuccess(String data) {
@@ -232,24 +203,8 @@ public class ProductListActivity extends AppCompatActivity implements View.OnCli
                 rechargData=new Data();
                 JSONObject object=contentjsonarry.getJSONObject(i);
                 rechargData.setId(object.getString("id"));
-                rechargData.setModel(object.getString("model"));
-                rechargData.setItemNo(object.getString("itemNo"));
-                rechargData.setFcno(object.getString("fcno"));
-                rechargData.setSkuName(object.getString("skuName"));
-                rechargData.setListPric(object.getString("listPrice"));
-                rechargData.setStatus(object.getString("status"));
-                rechargData.setWeight(object.getString("weight"));
-                rechargData.setPackageLength(object.getString("packageLength"));
-                rechargData.setPackageWidth(object.getString("packageWidth"));
-                rechargData.setPackageHeight(object.getString("packageHeight"));
-                rechargData.setMainImgUrl(object.getString("mainImgUrl"));
+                rechargData.setTypeName(object.getString("typeName"));
                 rechargData.setCompanyId(object.getString("companyId"));
-                rechargData.setCreateTime(object.getString("createTime"));
-                JSONObject productSeries=object.getJSONObject("productSeries");
-                rechargData.setSeriesName(productSeries.getString("seriesName"));
-                JSONObject productType=object.getJSONObject("productType");
-                rechargData.setTypeName(productType.getString("typeName"));
-                rechargData.setStatuslist(list1);
                 mListData.add(rechargData);
             }
         }
@@ -296,11 +251,8 @@ public class ProductListActivity extends AppCompatActivity implements View.OnCli
                         case 4:
                             adapter.notifyDataSetChanged();
                             break;
-                        case 6:
-                            list1=msg.obj.toString();
-                            break;
                         default:
-                            Toast.makeText(ProductListActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProductTypeActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                             break;
                     }
                 }catch (JSONException e){
@@ -315,46 +267,6 @@ public class ProductListActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
 
 
-    }
-
-
-    public void showNormalDialogproduct(final int position, final String id, String msgs, final String url){
-
-        final AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(ProductListActivity.this);
-        normalDialog.setMessage(msgs);
-        normalDialog.setPositiveButton("确定",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //...To-do
-                        new HttpUtils().Post(Constant.APPURLS+url+id,token,new HttpUtils.HttpCallback() {
-
-                            @Override
-                            public void onSuccess(String data) {
-                                // TODO Auto-generated method stub
-                                com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
-                                Message msg= Message.obtain(
-                                        mHandler,2,data
-                                );
-                                mHandler.sendMessage(msg);
-
-                            }
-
-                        });
-
-
-                    }
-                });
-        normalDialog.setNegativeButton("关闭",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //...To-do
-                    }
-                });
-        // 显示
-        normalDialog.show();
     }
 
     @Override
@@ -376,7 +288,7 @@ public class ProductListActivity extends AppCompatActivity implements View.OnCli
         }
         if(id==R.id.add){
             //新增信息
-            intent=new Intent(this,AddProduct.class);
+            intent=new Intent(this,AddProductTypeActivity.class);
             intent.putExtra("type","1");
             startActivityForResult(intent,REQUEST_CODE);
         }

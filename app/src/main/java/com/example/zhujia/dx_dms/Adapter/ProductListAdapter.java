@@ -127,11 +127,11 @@ public class ProductListAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.
             linearViewHolder.itemNo.setText(datas.get(position).getItemNo());
             linearViewHolder.fcno.setText(datas.get(position).getFcno());
             linearViewHolder.listPrice.setText("¥"+datas.get(position).getListPric());
-            linearViewHolder.weight.setText("重量:"+datas.get(position).getWeight());
-            linearViewHolder.packageHeight.setText("高度:"+datas.get(position).getPackageHeight());
-            linearViewHolder.packageLength.setText("长度:"+datas.get(position).getPackageLength());
-            linearViewHolder.packageWidth.setText("宽度:"+datas.get(position).getPackageWidth());
+            linearViewHolder.weight.setText("重量:"+datas.get(position).getWeight()+"KG");
+            linearViewHolder.Specifications.setText("规格:"+datas.get(position).getPackageLength()+"*"+datas.get(position).getPackageWidth()+"*"+datas.get(position).getPackageHeight()+"(CM)");
             linearViewHolder.createTime.setText(datas.get(position).getCreateTime());
+            linearViewHolder.typeName.setText(datas.get(position).getTypeName());
+            linearViewHolder.seriesName.setText(datas.get(position).getSeriesName());
 
             if(!datas.get(position).getMainImgUrl().equals("")){
                 Glide.with(context).load(Constant.loadimag+datas.get(position).getMainImgUrl()).into(linearViewHolder.mainImgUrl);
@@ -266,7 +266,7 @@ public class ProductListAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.
 
     public static class LinearViewHolder extends BaseRecyclerViewHolder {
 
-        private TextView skuName,model,itemNo,fcno,listPrice,status,weight,packageLength,packageWidth,packageHeight,createTime;
+        private TextView skuName,model,itemNo,fcno,listPrice,status,weight,Specifications,createTime,typeName,seriesName;
         private ImageView mainImgUrl;
         private Button del_btn,edit_btn,btn1,btn2;
         private LinearLayout lin;
@@ -279,15 +279,15 @@ public class ProductListAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.
             listPrice=(TextView)itemView.findViewById(R.id.listPrice);
             status=(TextView)itemView.findViewById(R.id.status);
             weight=(TextView)itemView.findViewById(R.id.weight);
-            packageLength=(TextView)itemView.findViewById(R.id.packageLength);
-            packageWidth=(TextView)itemView.findViewById(R.id.packageWidth);
-            packageHeight=(TextView)itemView.findViewById(R.id.packageHeight);
+            Specifications=(TextView)itemView.findViewById(R.id.Specifications);
             mainImgUrl=(ImageView) itemView.findViewById(R.id.mainImgUrl);
             createTime=(TextView)itemView.findViewById(R.id.createTime);
             del_btn=(Button)itemView.findViewById(R.id.del_btn);
             edit_btn=(Button)itemView.findViewById(R.id.edit_btn);
             btn1=(Button)itemView.findViewById(R.id.btn1);
             btn2=(Button)itemView.findViewById(R.id.btn2);
+            seriesName=(TextView)itemView.findViewById(R.id.seriesName);
+            typeName=(TextView)itemView.findViewById(R.id.typeName);
 
         }
     }

@@ -56,7 +56,40 @@
                 android:gravity="center_vertical"
                 />
 
+            <TextView
+                android:id="@+id/producttype_btn"
+                android:background="@color/white"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text=" 类型列表"
+                android:drawableRight="@mipmap/next"
+                android:paddingLeft="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@mipmap/cplb"
+                android:gravity="center_vertical"
+                />
+
+
+            <TextView
+                android:id="@+id/productseries_btn"
+                android:background="@color/white"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text=" 系列列表"
+                android:drawableRight="@mipmap/next"
+                android:paddingLeft="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@mipmap/cplb"
+                android:gravity="center_vertical"
+                />
+
         </LinearLayout>
+
+
 
     </ScrollView>
 

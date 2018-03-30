@@ -79,7 +79,7 @@
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="model"
+                    android:text="Model"
 
                     />
                 <EditText
@@ -102,7 +102,7 @@
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="itemNo"
+                    android:text="ItemNo"
 
                     />
                 <EditText
@@ -125,7 +125,7 @@
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="fcno"
+                    android:text="Fcno"
 
                     />
                 <EditText
@@ -148,7 +148,7 @@
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="价格"
+                    android:text="官方价格"
 
                     />
                 <EditText
@@ -268,7 +268,7 @@
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="barcode"
+                    android:text="产品条码"
 
                     />
                 <EditText

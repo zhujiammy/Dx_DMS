@@ -46,6 +46,25 @@ public class Data  {
     private String packageHeight;
     private String mainImgUrl;
     private String companyId;
+    private String typeName;
+    private String seriesName;
+
+
+    public String getSeriesName() {
+        return seriesName;
+    }
+
+    public void setSeriesName(String seriesName) {
+        this.seriesName = seriesName;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
     public String getCompanyId() {
         return companyId;

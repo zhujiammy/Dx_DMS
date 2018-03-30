@@ -18,7 +18,7 @@ import com.example.zhujia.dx_dms.R;
 public class productmanagementActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Toolbar toolbar;
-    private TextView prolist_btn;
+    private TextView prolist_btn,producttype_btn,productseries_btn;
     private Intent intent;
 
     @Override
@@ -41,6 +41,10 @@ public class productmanagementActivity extends AppCompatActivity implements View
     private void initUI(){
         prolist_btn=(TextView)findViewById(R.id.prolist_btn);
         prolist_btn.setOnClickListener(this);
+        producttype_btn=(TextView)findViewById(R.id.producttype_btn);
+        producttype_btn.setOnClickListener(this);
+        productseries_btn=(TextView)findViewById(R.id.productseries_btn);
+        productseries_btn.setOnClickListener(this);
 
     }
 
@@ -52,6 +56,17 @@ public class productmanagementActivity extends AppCompatActivity implements View
             intent=new Intent(this,ProductListActivity.class);
             startActivity(intent);
 
+        }
+        if(v==producttype_btn){
+            //类型列表
+            intent=new Intent(this,ProductTypeActivity.class);
+            startActivity(intent);
+
+        }
+        if(v==productseries_btn){
+            //系列列表
+            intent=new Intent(this,ProductSeriesActivity.class);
+            startActivity(intent);
         }
 
     }

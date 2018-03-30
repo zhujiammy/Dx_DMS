@@ -70,7 +70,6 @@
         android:name=".Tools.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -139,8 +138,21 @@
         <activity android:name=".Activity.AddProduct" android:theme="@style/AppTheme1">
 
         </activity>
+        <activity android:name=".Activity.ProductTypeActivity" android:theme="@style/AppTheme1">
 
+        </activity>
+        <activity android:name=".Activity.AddProductTypeActivity" android:theme="@style/AppTheme1">
 
+        </activity>
+        <activity android:name=".Activity.ProductSeriesActivity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Activity.AddProductSeriesActivity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Activity.ParentActivity" android:theme="@style/AppTheme1">
+
+        </activity>
         <!--android 7.0以上必要的文件-->
         <provider
             android:name="android.support.v4.content.FileProvider"

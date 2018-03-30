@@ -40,20 +40,20 @@
     </LinearLayout>
 
     <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
+
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         >
 
         <com.example.zhujia.dx_dms.Tools.FixedGridLayout
             android:id="@+id/grid"
-            android:layout_marginLeft="25dp"
+            android:layout_margin="20dp"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:cellHeight="100dp"
-            app:cellWidth="110dp"
+            app:cellWidth="120dp"
             >
          <LinearLayout
 

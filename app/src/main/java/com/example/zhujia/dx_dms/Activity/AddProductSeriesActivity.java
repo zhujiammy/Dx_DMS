@@ -18,11 +18,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.zhujia.dx_dms.Data.AllData;
 import com.example.zhujia.dx_dms.R;
 import com.example.zhujia.dx_dms.Tools.Net.Constant;
@@ -37,28 +37,23 @@ import java.util.List;
 
 /**
  * Created by ZHUJIA on 2018/3/15.
- * 新增资源信息
+ * 新增类型信息
  */
 
-public class AddBasicresourceActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddProductSeriesActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView text1;
     private Toolbar toolbar;
-    private EditText resourceCode,resourceName;
+    private EditText seriesName;
     private SharedPreferences sharedPreferences;
-    private TextView parentId;
     Intent intent;
     JSONObject object,pager;
-    private LinearLayout lin_btn;
     private String token;
-
-
-
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.addbasicresource_xml);
+        setContentView(R.layout.addproductseries_xml);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -73,29 +68,18 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
         sharedPreferences =getSharedPreferences("Session",
                 Context.MODE_APPEND);
         token=sharedPreferences.getString("token","");
-
         initUI();
     }
 
 
     private void initUI(){
         text1=(TextView)findViewById(R.id.text1);
-
-        parentId=(TextView) findViewById(R.id.parentId);
-        resourceCode=(EditText)findViewById(R.id.resourceCode);
-        resourceName=(EditText)findViewById(R.id.resourceName);
-        lin_btn=(LinearLayout)findViewById(R.id.lin_btn);
-        parentId.setOnClickListener(this);
-
-
-        if(intent.getStringExtra("type")==null){
-            text1.setText("修改资源信息");
+        seriesName=(EditText)findViewById(R.id.seriesName);
+        if(intent.getStringExtra("type").equals("2")){
+            text1.setText("修改系列");
             loadGet(intent.getStringExtra("id"));
-            lin_btn.setVisibility(View.GONE);
         }else {
-            text1.setText("新增资源信息");
-
-
+            text1.setText("新增系类");
         }
 
 
@@ -104,24 +88,23 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
 
 
     private void loadGet(String id){
-            new HttpUtils().Post(Constant.APPURLS+"/system/systemresource/get"+"/"+id,token,new HttpUtils.HttpCallback() {
+        System.out.print(id);
+        new HttpUtils().Post(Constant.APPURLS+"product/productseries/get"+"/"+id,token,new HttpUtils.HttpCallback() {
 
-                @Override
-                public void onSuccess(String data) {
-                    // TODO Auto-generated method stub
-                    com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
+            @Override
+            public void onSuccess(String data) {
+                // TODO Auto-generated method stub
+                com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
 
-                    Message msg= Message.obtain(
-                            mHandler,2,data
-                    );
-                    mHandler.sendMessage(msg);
-                }
+                Message msg= Message.obtain(
+                        mHandler,2,data
+                );
+                mHandler.sendMessage(msg);
+            }
 
-            });
+        });
 
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,27 +124,17 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
 
             object = new JSONObject();
             try {
-
-                object.put("parentId","");
-                object.put("resourceCode",resourceCode.getText().toString());
-                object.put("resourceName",resourceName.getText().toString());
-
+                object.put("seriesName",seriesName.getText().toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             String params=object.toString();
             //保存
-             if(TextUtils.isEmpty(parentId.getText().toString())){
-                Toast.makeText(getApplicationContext(),"上级资源不能为空",Toast.LENGTH_SHORT).show();
-            }else if(TextUtils.isEmpty(resourceCode.getText().toString())){
-                Toast.makeText(getApplicationContext(),"资源代码不能为空",Toast.LENGTH_SHORT).show();
-            }else if(TextUtils.isEmpty(resourceName.getText().toString())){
-                Toast.makeText(getApplicationContext(),"资源名称不能为空",Toast.LENGTH_SHORT).show();
-            }else if(intent.getStringExtra("type")==null) {
-
-
+            if(TextUtils.isEmpty(seriesName.getText().toString())){
+                Toast.makeText(getApplicationContext(),"系列不能为空",Toast.LENGTH_SHORT).show();
+            }else if(intent.getStringExtra("type").equals("2")) {
                 //修改
-                new HttpUtils().postJson(Constant.APPURLS + "/system/systemresource/update" + "/" + intent.getStringExtra("id"),params,token,new HttpUtils.HttpCallback() {
+                new HttpUtils().postJson(Constant.APPURLS + "product/productseries/update" + "/" + intent.getStringExtra("id"),params,token, new HttpUtils.HttpCallback() {
 
                     @Override
                     public void onSuccess(String data) {
@@ -181,7 +154,7 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
                 Log.e("TAG", "login: "+object );
                 //新增
 
-                new HttpUtils().postJson(Constant.APPURLS+"/system/systemresource/add",params,token,new HttpUtils.HttpCallback() {
+                new HttpUtils().postJson(Constant.APPURLS+"product/productseries/add",params,token,new HttpUtils.HttpCallback() {
 
                     @Override
                     public void onSuccess(String data) {
@@ -217,7 +190,7 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
                         //返回item类型数据
                         JSONObject reslutJSONObject=new JSONObject(msg.obj.toString());
                         if(reslutJSONObject.getString("code").equals("200")){
-                            Toast.makeText(AddBasicresourceActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddProductSeriesActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
                             Intent data=new Intent();
                             data.putExtra("freshen","y");
                             setResult(RESULT_OK,data);
@@ -225,19 +198,12 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
                         }
 
                         break;
-
-
-                    case  2:
-                        JSONObject basicresource =new JSONObject(msg.obj.toString());
-                        //parentId.setText(basicresource.getString("parentId"));
-                        resourceName.setText(basicresource.getString("resourceName"));
-                        resourceCode.setText(basicresource.getString("resourceCode"));
+                    case 2:
+                        JSONObject object=new JSONObject(msg.obj.toString());
+                        seriesName.setText(object.getString("seriesName"));
                         break;
-
-
-
                     default:
-                        Toast.makeText(AddBasicresourceActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddProductSeriesActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }catch (JSONException e){
@@ -250,10 +216,5 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
     @Override
     public void onClick(View v) {
 
-        if(v==parentId){
-
-            intent =new Intent(getApplicationContext(),ParentActivity.class);
-            startActivity(intent);
-        }
     }
 }

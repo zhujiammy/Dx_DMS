@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbar.setTitle("首页");
+        toolbar.setTitle("");
         tvToolTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         sharedPreferences =getSharedPreferences("Session",

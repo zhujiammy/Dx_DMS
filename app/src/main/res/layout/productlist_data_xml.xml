@@ -11,6 +11,7 @@
 
 
     <LinearLayout
+        android:layout_marginTop="5dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -45,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:textSize="10sp"
+                        android:textSize="12sp"
                         android:id="@+id/model"
                         android:layout_marginLeft="3dp"
                         android:layout_width="wrap_content"
@@ -62,7 +63,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:textSize="10sp"
+                        android:textSize="12sp"
                         android:id="@+id/itemNo"
                         android:layout_marginLeft="3dp"
                         android:layout_width="wrap_content"
@@ -77,7 +78,7 @@
 
                     </LinearLayout>
                     <TextView
-                        android:textSize="10sp"
+                        android:textSize="12sp"
                         android:id="@+id/fcno"
                         android:layout_marginLeft="3dp"
                         android:layout_width="wrap_content"
@@ -92,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:textSize="10sp"
+                        android:textSize="12sp"
                         android:id="@+id/weight"
                         android:layout_marginLeft="3dp"
                         android:layout_width="wrap_content"
@@ -100,28 +101,12 @@
                         android:text="重量:26.64"
                         />
                     <TextView
-                        android:textSize="10sp"
-                        android:id="@+id/packageLength"
+                        android:textSize="12sp"
+                        android:id="@+id/Specifications"
                         android:layout_marginLeft="3dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="长度:94"
-                        />
-                    <TextView
-                        android:textSize="10sp"
-                        android:id="@+id/packageWidth"
-                        android:layout_marginLeft="3dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="宽度:94"
-                        />
-                    <TextView
-                        android:textSize="10sp"
-                        android:id="@+id/packageHeight"
-                        android:layout_marginLeft="3dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="高度:94"
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -132,7 +117,7 @@
                     android:layout_height="wrap_content">
                     <TextView
                         android:textColor="#252323"
-                        android:textSize="10sp"
+                        android:textSize="12sp"
                         android:id="@+id/createTime"
                         android:layout_marginLeft="3dp"
                         android:layout_width="wrap_content"
@@ -141,7 +126,39 @@
                         />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textColor="#252323"
+                        android:textSize="12sp"
+                        android:id="@+id/typeName"
+                        android:layout_marginLeft="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
 
+                        />
+                    <LinearLayout
+                        android:layout_marginLeft="5dp"
+                        android:background="@color/monsoon"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent">
+
+                    </LinearLayout>
+                    <TextView
+                        android:textColor="#252323"
+                        android:textSize="12sp"
+                        android:id="@+id/seriesName"
+                        android:layout_marginLeft="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -151,7 +168,7 @@
                         android:id="@+id/listPrice"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:textSize="20sp"
+                        android:textSize="23sp"
                         android:textColor="@color/del_color"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
