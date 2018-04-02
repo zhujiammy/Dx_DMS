@@ -84,6 +84,7 @@
 
                     />
                 <TextView
+                    android:gravity="center_vertical"
                     android:id="@+id/parentId"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"

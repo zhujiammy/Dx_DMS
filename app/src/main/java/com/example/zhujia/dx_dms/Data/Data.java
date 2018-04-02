@@ -49,6 +49,43 @@ public class Data  {
     private String typeName;
     private String seriesName;
 
+    private String label;
+    private String value;
+    private String children_label;
+    private String children_value;
+
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getChildren_label() {
+        return children_label;
+    }
+
+    public void setChildren_label(String children_label) {
+        this.children_label = children_label;
+    }
+
+    public String getChildren_value() {
+        return children_value;
+    }
+
+    public void setChildren_value(String children_value) {
+        this.children_value = children_value;
+    }
 
     public String getSeriesName() {
         return seriesName;

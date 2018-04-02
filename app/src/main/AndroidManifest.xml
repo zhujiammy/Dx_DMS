@@ -150,9 +150,6 @@
         <activity android:name=".Activity.AddProductSeriesActivity" android:theme="@style/AppTheme1">
 
         </activity>
-        <activity android:name=".Activity.ParentActivity" android:theme="@style/AppTheme1">
-
-        </activity>
         <!--android 7.0以上必要的文件-->
         <provider
             android:name="android.support.v4.content.FileProvider"

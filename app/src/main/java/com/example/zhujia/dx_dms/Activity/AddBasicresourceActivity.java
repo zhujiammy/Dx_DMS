@@ -17,16 +17,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zhujia.dx_dms.Adapter.MyListAdapter;
+import com.example.zhujia.dx_dms.Adapter.MySubListAdapter;
 import com.example.zhujia.dx_dms.Data.AllData;
+import com.example.zhujia.dx_dms.Data.Data;
 import com.example.zhujia.dx_dms.R;
 import com.example.zhujia.dx_dms.Tools.Net.Constant;
 import com.example.zhujia.dx_dms.Tools.Net.HttpUtils;
+import com.hmy.popwindow.PopWindow;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +57,18 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
     JSONObject object,pager;
     private LinearLayout lin_btn;
     private String token;
+    private PopWindow popWindow;
+    private   View customView;
+    private Button ok_btn;
+    private String parentIds;
+    private Handler mHandler;
+    private ListView listView;
+    private ListView subListView;
+    private MyListAdapter myAdapter;
+    private MySubListAdapter subAdapter;
+    private List<Data> mListData=new ArrayList<>();
+    private List<Data> mListDatas=new ArrayList<>();
+    private String text2,text3;
 
 
 
@@ -95,14 +113,134 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
         }else {
             text1.setText("新增资源信息");
 
+            customView = View.inflate(AddBasicresourceActivity.this,R.layout.parent_xml, null);
+            listView = (ListView) customView.findViewById(R.id.listView);
+            subListView = (ListView) customView.findViewById(R.id.subListView);
+            ok_btn=(Button)customView.findViewById(R.id.ok_btn);
+            ok_btn.setOnClickListener(this);
+            popWindow = new PopWindow.Builder(AddBasicresourceActivity.this)
+                    .setStyle(PopWindow.PopWindowStyle.PopUp)
+                    .setView(customView)
+                    .create();
+            loadbaseinfo();
+            myAdapter = new MyListAdapter(getApplicationContext(), getData());
+
 
         }
 
 
     }
+    private void loadbaseinfo(){
+        new HttpUtils().Post(Constant.APPURLS+"/system/systemresource/query/tree",token,new HttpUtils.HttpCallback() {
+
+            @Override
+            public void onSuccess(String data) {
+                // TODO Auto-generated method stub
+                com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
+
+                Message msg= Message.obtain(
+                        mHandler,0,data
+                );
+                mHandler.sendMessage(msg);
+            }
+
+        });
+    }
+
+
+    @SuppressLint("HandlerLeak")
+    private List<Data>getData(){
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+
+                try{
+                    switch (msg.what) {
+
+                        case 0:
+                            //返回item类型数据
+                            JSONArray reslutJSONObject=new JSONArray(msg.obj.toString());
+                            mListData.clear();
+                            fillDataToList(reslutJSONObject);
+                            listView.setAdapter(myAdapter);
+                            setSubList(0,mListData.get(0).getList());
+                            text2=mListData.get(0).getLabel();
+                            parentIds=mListData.get(0).getValue();
+                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> arg0, View arg1,
+                                                        int position, long arg3) {
+                                    setSubList(position,mListData.get(position).getList());
+                                    parentIds=mListData.get(position).getValue();
+                                    text2=mListData.get(position).getLabel();
+                                }
+                            });
+                            break;
+                        default:
+                            Toast.makeText(AddBasicresourceActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        return mListData;
+    }
+    public void setSubList(int position,String list) {
+        Log.e("TAG", "setSubList: "+list );
+        mListDatas.clear();
+        try {
+            Data rechargData=null;
+            JSONArray jsonArray=new JSONArray(list);
+            for(int i=0;i<jsonArray.length();i++){
+                rechargData=new Data();
+                JSONObject object=jsonArray.getJSONObject(i);
+                rechargData.setLabel(object.getString("label"));
+                rechargData.setValue(object.getString("value"));
+                mListDatas.add(rechargData);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final int location = position;
+        myAdapter.setSelectedPosition(position);
+        myAdapter.notifyDataSetInvalidated();
+        subAdapter = new MySubListAdapter(getApplicationContext(),mListDatas,
+                position);
+        subListView.setAdapter(subAdapter);
+        text3="";
+        subListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                // TODO Auto-generated method stub
+                subAdapter.setSelectedPosition(position);
+                subAdapter.notifyDataSetInvalidated();
+                parentIds=mListDatas.get(position).getValue();
+                text3=mListDatas.get(position).getLabel();
+
+
+            }
+        });
+    }
+    private void fillDataToList(JSONArray data) throws JSONException {
+
+
+        Data rechargData=null;
+        for(int i=0;i<data.length();i++){
+            rechargData=new Data();
+            JSONObject object=data.getJSONObject(i);
+            rechargData.setLabel(object.getString("label"));
+            rechargData.setValue(object.getString("value"));
+            rechargData.setList(object.getString("children"));
+            mListData.add(rechargData);
+        }
 
 
 
+    }
     private void loadGet(String id){
             new HttpUtils().Post(Constant.APPURLS+"/system/systemresource/get"+"/"+id,token,new HttpUtils.HttpCallback() {
 
@@ -112,9 +250,9 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
                     com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
 
                     Message msg= Message.obtain(
-                            mHandler,2,data
+                            mHandlers,2,data
                     );
-                    mHandler.sendMessage(msg);
+                    mHandlers.sendMessage(msg);
                 }
 
             });
@@ -142,7 +280,7 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
             object = new JSONObject();
             try {
 
-                object.put("parentId","");
+                object.put("parentId",parentIds);
                 object.put("resourceCode",resourceCode.getText().toString());
                 object.put("resourceName",resourceName.getText().toString());
 
@@ -169,9 +307,9 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
                         com.example.zhujia.dx_dms.Tools.Log.printJson("tag", data, "header");
 
                         Message msg = Message.obtain(
-                                mHandler, 0, data
+                                mHandlers, 0, data
                         );
-                        mHandler.sendMessage(msg);
+                        mHandlers.sendMessage(msg);
                     }
 
                 });
@@ -189,9 +327,9 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
                         com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
 
                         Message msg= Message.obtain(
-                                mHandler,0,data
+                                mHandlers,0,data
                         );
-                        mHandler.sendMessage(msg);
+                        mHandlers.sendMessage(msg);
                     }
 
                 });
@@ -206,7 +344,7 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
 
 
     @SuppressLint("HandlerLeak")
-    private Handler mHandler=new Handler(){
+    private Handler mHandlers=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -251,9 +389,21 @@ public class AddBasicresourceActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
 
         if(v==parentId){
+            popWindow.show(customView);
+        }
 
-            intent =new Intent(getApplicationContext(),ParentActivity.class);
-            startActivity(intent);
+        if(v==ok_btn){
+            popWindow.dismiss();
+             if(!text2.equals("")){
+                    parentId.setText(text2);
+                }
+                if(!text3.equals("")){
+                    Log.e("TAG", "onItemClick: "+text3 );
+                    parentId.setText(text2+" "+text3);
+                }
+
+
+
         }
     }
 }

@@ -1,12 +1,47 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    android:layout_height="250dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+    <Button
+        android:layout_gravity="right"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentRight="true"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:id="@+id/ok_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp" />
 
-    <ListView
-        android:id="@+id/treeview"
+    <LinearLayout
+
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content">
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#e4e3de"
+            android:choiceMode="singleChoice"
+            android:listSelector="#00000000"
+            android:scrollbars="none" >
+        </ListView>
 
-</RelativeLayout>
+        <ListView
+            android:id="@+id/subListView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="#e4e3de"
+            >
+        </ListView>
+    </LinearLayout>
+
+
+</LinearLayout>
