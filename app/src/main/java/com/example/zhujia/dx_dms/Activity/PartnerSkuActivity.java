@@ -68,7 +68,7 @@ public class PartnerSkuActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.productlist_xml);
+        setContentView(R.layout.public_xml);
         intent=getIntent();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
