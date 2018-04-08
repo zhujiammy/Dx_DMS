@@ -51,9 +51,392 @@ public class Data  {
 
     private String label;
     private String value;
+    private String key;
     private String children_label;
     private String children_value;
 
+    private String partnerName;
+    private String province;
+    private String city;
+    private String district;
+    private String addr;
+    private String shopName;
+    private String shopAddr;
+    private String email;
+    private String mobile;
+    private String phone;
+    private String qq;
+
+    private String partnerInfoId;
+    private String invoiceType;
+    private String invoiceTitle;
+    private String invoiceCode;
+    private String invoiceAddr;
+    private String invoicePhone;
+    private String invoiceBankName;
+    private String invoiceBankNo;
+
+    private String list3;
+
+    private String paymentType;
+    private String paymentAccount;
+    private String paymentNo;
+    private String totalBalance;
+    private String totalFee;
+
+    private String partnerId;
+    private String paymentImg;
+    private String paymentNote;
+    private String receiveAccount;
+    private String receiveNo;
+    private String receiveType;
+    private String rechargeType;
+    private String paymentPerson;
+    private String receiveFee;
+    private String receiveNote;
+    private String receivePerson;
+    private String rechargeNo;
+    private String transNo;
+    private String receiveImg;
+
+    private String list2;
+    private String list4;
+
+    public String getList2() {
+        return list2;
+    }
+
+    public void setList2(String list2) {
+        this.list2 = list2;
+    }
+
+    public String getList4() {
+        return list4;
+    }
+
+    public void setList4(String list4) {
+        this.list4 = list4;
+    }
+
+    public String getReceiveImg() {
+        return receiveImg;
+    }
+
+    public void setReceiveImg(String receiveImg) {
+        this.receiveImg = receiveImg;
+    }
+
+    public String getPaymentPerson() {
+        return paymentPerson;
+    }
+
+    public void setPaymentPerson(String paymentPerson) {
+        this.paymentPerson = paymentPerson;
+    }
+
+    public String getReceiveFee() {
+        return receiveFee;
+    }
+
+    public void setReceiveFee(String receiveFee) {
+        this.receiveFee = receiveFee;
+    }
+
+    public String getReceiveNote() {
+        return receiveNote;
+    }
+
+    public void setReceiveNote(String receiveNote) {
+        this.receiveNote = receiveNote;
+    }
+
+    public String getReceivePerson() {
+        return receivePerson;
+    }
+
+    public void setReceivePerson(String receivePerson) {
+        this.receivePerson = receivePerson;
+    }
+
+    public String getRechargeNo() {
+        return rechargeNo;
+    }
+
+    public void setRechargeNo(String rechargeNo) {
+        this.rechargeNo = rechargeNo;
+    }
+
+    public String getTransNo() {
+        return transNo;
+    }
+
+    public void setTransNo(String transNo) {
+        this.transNo = transNo;
+    }
+
+    public String getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
+    }
+
+    public String getPaymentImg() {
+        return paymentImg;
+    }
+
+    public void setPaymentImg(String paymentImg) {
+        this.paymentImg = paymentImg;
+    }
+
+    public String getPaymentNote() {
+        return paymentNote;
+    }
+
+    public void setPaymentNote(String paymentNote) {
+        this.paymentNote = paymentNote;
+    }
+
+    public String getReceiveAccount() {
+        return receiveAccount;
+    }
+
+    public void setReceiveAccount(String receiveAccount) {
+        this.receiveAccount = receiveAccount;
+    }
+
+    public String getReceiveNo() {
+        return receiveNo;
+    }
+
+    public void setReceiveNo(String receiveNo) {
+        this.receiveNo = receiveNo;
+    }
+
+    public String getReceiveType() {
+        return receiveType;
+    }
+
+    public void setReceiveType(String receiveType) {
+        this.receiveType = receiveType;
+    }
+
+    public String getRechargeType() {
+        return rechargeType;
+    }
+
+    public void setRechargeType(String rechargeType) {
+        this.rechargeType = rechargeType;
+    }
+
+    public String getTotalBalance() {
+        return totalBalance;
+    }
+
+    public void setTotalBalance(String totalBalance) {
+        this.totalBalance = totalBalance;
+    }
+
+    public String getTotalFee() {
+        return totalFee;
+    }
+
+    public void setTotalFee(String totalFee) {
+        this.totalFee = totalFee;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public String getPaymentAccount() {
+        return paymentAccount;
+    }
+
+    public void setPaymentAccount(String paymentAccount) {
+        this.paymentAccount = paymentAccount;
+    }
+
+    public String getPaymentNo() {
+        return paymentNo;
+    }
+
+    public void setPaymentNo(String paymentNo) {
+        this.paymentNo = paymentNo;
+    }
+
+    public String getList3() {
+        return list3;
+    }
+
+    public void setList3(String list3) {
+        this.list3 = list3;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getPartnerInfoId() {
+        return partnerInfoId;
+    }
+
+    public void setPartnerInfoId(String partnerInfoId) {
+        this.partnerInfoId = partnerInfoId;
+    }
+
+    public String getInvoiceType() {
+        return invoiceType;
+    }
+
+    public void setInvoiceType(String invoiceType) {
+        this.invoiceType = invoiceType;
+    }
+
+    public String getInvoiceTitle() {
+        return invoiceTitle;
+    }
+
+    public void setInvoiceTitle(String invoiceTitle) {
+        this.invoiceTitle = invoiceTitle;
+    }
+
+    public String getInvoiceCode() {
+        return invoiceCode;
+    }
+
+    public void setInvoiceCode(String invoiceCode) {
+        this.invoiceCode = invoiceCode;
+    }
+
+    public String getInvoiceAddr() {
+        return invoiceAddr;
+    }
+
+    public void setInvoiceAddr(String invoiceAddr) {
+        this.invoiceAddr = invoiceAddr;
+    }
+
+    public String getInvoicePhone() {
+        return invoicePhone;
+    }
+
+    public void setInvoicePhone(String invoicePhone) {
+        this.invoicePhone = invoicePhone;
+    }
+
+    public String getInvoiceBankName() {
+        return invoiceBankName;
+    }
+
+    public void setInvoiceBankName(String invoiceBankName) {
+        this.invoiceBankName = invoiceBankName;
+    }
+
+    public String getInvoiceBankNo() {
+        return invoiceBankNo;
+    }
+
+    public void setInvoiceBankNo(String invoiceBankNo) {
+        this.invoiceBankNo = invoiceBankNo;
+    }
+
+    public String getPartnerName() {
+        return partnerName;
+    }
+
+    public void setPartnerName(String partnerName) {
+        this.partnerName = partnerName;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getAddr() {
+        return addr;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public String getShopAddr() {
+        return shopAddr;
+    }
+
+    public void setShopAddr(String shopAddr) {
+        this.shopAddr = shopAddr;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
 
     public String getLabel() {
         return label;

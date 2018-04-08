@@ -150,6 +150,42 @@
         <activity android:name=".Activity.AddProductSeriesActivity" android:theme="@style/AppTheme1">
 
         </activity>
+        <activity android:name=".Activity.CustomerManagementAcitivity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Activity.CustomerLsitActivity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Activity.AddCustomerLsitActivity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Tools.CitySelect1Activity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Activity.PartnerInvoiceAcitivity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Activity.AddPartnerInvoiceAcitivity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Activity.PartnerbankActivity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Activity.AddPartnerbankActivity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Activity.PartnerAccountActivity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Activity.PartnerRechargeActivity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Activity.AddPartnerRechargeActivity" android:theme="@style/AppTheme1">
+
+        </activity>
+        <activity android:name=".Activity.PartnerSkuActivity" android:theme="@style/AppTheme1">
+
+        </activity>
         <!--android 7.0以上必要的文件-->
         <provider
             android:name="android.support.v4.content.FileProvider"

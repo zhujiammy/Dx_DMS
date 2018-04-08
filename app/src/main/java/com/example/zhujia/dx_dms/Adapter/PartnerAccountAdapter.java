@@ -7,15 +7,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.zhujia.dx_dms.Activity.AddRoleAcitivity;
-import com.example.zhujia.dx_dms.Activity.RoleAcitivity;
+import com.bumptech.glide.Glide;
+import com.example.zhujia.dx_dms.Activity.AddCustomerLsitActivity;
+import com.example.zhujia.dx_dms.Activity.AddPartnerbankActivity;
+import com.example.zhujia.dx_dms.Activity.AddProduct;
+import com.example.zhujia.dx_dms.Activity.CustomerLsitActivity;
+import com.example.zhujia.dx_dms.Activity.PartnerAccountActivity;
+import com.example.zhujia.dx_dms.Activity.PartnerbankActivity;
+import com.example.zhujia.dx_dms.Activity.ProductListActivity;
 import com.example.zhujia.dx_dms.Data.AllData;
 import com.example.zhujia.dx_dms.Data.Data;
 import com.example.zhujia.dx_dms.R;
@@ -31,24 +39,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.zhujia.dx_dms.Activity.GroupinFormation_Activity.REQUEST_CODE;
+import static com.example.zhujia.dx_dms.Activity.ProductListActivity.REQUEST_CODE;
 
 /**
  * Created by ZHUJIA on 2018/3/14.
  */
 
-public class Role_Adapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.BaseRecyclerViewHolder> implements View.OnClickListener  {
+public class PartnerAccountAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.BaseRecyclerViewHolder> implements View.OnClickListener  {
 
     private List<Data> datas;
-    public RoleAcitivity context;
+    public PartnerAccountActivity context;
     private int type=0;
     private SharedPreferences sharedPreferences;
-    private String token;
+    private String business_id,userId,departmentPersonName,departmentPersonSession,token;
     private Handler mHandler;
-    private List<AllData> dicts1 = new ArrayList<AllData>();
-    private Role_Adapter.OnitemClickListener onitemClickListener=null;
+    private List<AllData> dicts1= new ArrayList<AllData>();
+    private PartnerAccountAdapter.OnitemClickListener onitemClickListener=null;
     @SuppressLint("WrongConstant")
-    public Role_Adapter(RoleAcitivity context1, List<Data>data){
+    public PartnerAccountAdapter(PartnerAccountActivity context1, List<Data>data){
         this.context=context1;
         this.datas=data;
         sharedPreferences =context1.getSharedPreferences("Session", Context.MODE_APPEND);
@@ -61,7 +69,7 @@ public class Role_Adapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.BaseRe
         }
     }
 
-    public void setOnitemClickListener(Role_Adapter.OnitemClickListener onitemClickListener) {
+    public void setOnitemClickListener(PartnerAccountAdapter.OnitemClickListener onitemClickListener) {
         this.onitemClickListener = onitemClickListener;
     }
 
@@ -86,16 +94,16 @@ public class Role_Adapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.BaseRe
         View baseView;
         if (viewType == 0) {
 
-            baseView = LayoutInflater.from(parent.getContext()).inflate(R.layout.role_data_xml, parent, false);
-            Role_Adapter.LinearViewHolder linearViewHolder = new Role_Adapter.LinearViewHolder(baseView);
+            baseView = LayoutInflater.from(parent.getContext()).inflate(R.layout.partneraccount_data_xml, parent, false);
+            PartnerAccountAdapter.LinearViewHolder linearViewHolder = new PartnerAccountAdapter.LinearViewHolder(baseView);
             baseView.setOnClickListener(this);
             return linearViewHolder;
 
         }
         else {
 
-            baseView = LayoutInflater.from(parent.getContext()).inflate(R.layout.role_data_xml, parent, false);
-            Role_Adapter.GridViewHolder gridViewHolder = new Role_Adapter.GridViewHolder(baseView);
+            baseView = LayoutInflater.from(parent.getContext()).inflate(R.layout.partneraccount_data_xml, parent, false);
+            PartnerAccountAdapter.GridViewHolder gridViewHolder = new PartnerAccountAdapter.GridViewHolder(baseView);
             baseView.setOnClickListener(this);
             return gridViewHolder;
         }
@@ -117,29 +125,32 @@ public class Role_Adapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.BaseRe
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, final int position) {
         if (type==0){
-            final Role_Adapter.LinearViewHolder linearViewHolder= (Role_Adapter.LinearViewHolder) holder;
+            final PartnerAccountAdapter.LinearViewHolder linearViewHolder= (PartnerAccountAdapter.LinearViewHolder) holder;
+            linearViewHolder.totalBalance.setText(datas.get(position).getTotalBalance());
+            linearViewHolder.totalFee.setText(datas.get(position).getTotalFee());
+            linearViewHolder.del_btn.setEnabled(false);
+            linearViewHolder.edit_btn.setEnabled(false);
 
-            linearViewHolder.roleName.setText(datas.get(position).getRoleName());
+            try {
 
-
-                try {
-                    if(datas.get(position).getList()!=null){
-                        JSONArray companylist = new JSONArray(datas.get(position).getList());
-                        for(int i=0;i<companylist.length();i++){
-                            JSONObject object1=companylist.getJSONObject(i);
-                            dicts1.add(new AllData(object1.getString("id"),object1.getString("groupName")));
-
-                        }
-                        for(int j=0;j<dicts1.size();j++){
-                            if(datas.get(position).getGroupId().equals(dicts1.get(j).getStr())){
-                                linearViewHolder.groupId.setText(dicts1.get(j).getText());
-                            }
+                if(datas.get(position).getList()!=null){
+                    Log.e("TAG", "onBindViewHolder: "+datas.get(position).getList() );
+                    JSONArray statuslist = null;
+                    statuslist = new JSONArray(datas.get(position).getList());
+                    for(int i=0;i<statuslist.length();i++){
+                        JSONObject object1=statuslist.getJSONObject(i);
+                        dicts1.add(new AllData(object1.getString("id"),object1.getString("partnerName")));
+                    }
+                    for(int j=0;j<dicts1.size();j++){
+                        if(datas.get(position).getPartnerInfoId().equals(dicts1.get(j).getStr())){
+                            linearViewHolder.partnerInfoId.setText(dicts1.get(j).getText());
                         }
                     }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
 
             //删除
@@ -156,24 +167,21 @@ public class Role_Adapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.BaseRe
                 @Override
                 public void onClick(View v) {
 //新增信息
-                    Intent intent=new Intent(context,AddRoleAcitivity.class);
+                    Intent intent=new Intent(context,AddPartnerbankActivity.class);
                     intent.putExtra("id",datas.get(position).getId());
-                    intent.putExtra("GroupId",datas.get(position).getGroupId());
-                    intent.putExtra("roleName",datas.get(position).getRoleName());
+                    intent.putExtra("type","2");
+                    intent.putExtra("paytype",datas.get(position).getPaymentType());
+                    intent.putExtra("partnerInfoId",datas.get(position).getPartnerInfoId());
                     context.startActivityForResult(intent,REQUEST_CODE);
                 }
             });
 
-            //权限分配
-            linearViewHolder.Permission_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.shouw(datas.get(position).getId());
-                }
-            });
 
         }
     }
+
+
+
 
     private void showNormalDialog(final int position, final String id){
 
@@ -185,7 +193,7 @@ public class Role_Adapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.BaseRe
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
-                        new HttpUtils().Post(Constant.APPURLS+"/system/systemrole//delete"+"/"+id,token,new HttpUtils.HttpCallback() {
+                        new HttpUtils().Post(Constant.APPURLS+"partner/partnerbank/delete"+"/"+id,token,new HttpUtils.HttpCallback() {
 
                             @Override
                             public void onSuccess(String data) {
@@ -220,19 +228,22 @@ public class Role_Adapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.BaseRe
         normalDialog.show();
     }
 
+
     public static class LinearViewHolder extends BaseRecyclerViewHolder {
 
-        private TextView groupId,roleName;
-        private Button edit_btn,del_btn,Permission_btn;
+        private TextView partnerInfoId,totalBalance,totalFee;
+        private ImageView mainImgUrl;
+        private Button del_btn,edit_btn;
         private LinearLayout lin;
         public LinearViewHolder(View itemView) {
             super(itemView);
-            groupId=(TextView)itemView.findViewById(R.id.groupId);
-            roleName=(TextView)itemView.findViewById(R.id.roleName);
-            edit_btn=(Button)itemView.findViewById(R.id.edit_btn);
-            lin=(LinearLayout)itemView.findViewById(R.id.lin_btn);
+            partnerInfoId=(TextView)itemView.findViewById(R.id.partnerInfoId);
+            totalBalance=(TextView)itemView.findViewById(R.id.totalBalance);
+            totalFee=(TextView)itemView.findViewById(R.id.totalFee);
             del_btn=(Button)itemView.findViewById(R.id.del_btn);
-            Permission_btn=(Button)itemView.findViewById(R.id.Permission_btn);
+            edit_btn=(Button)itemView.findViewById(R.id.edit_btn);
+
+
         }
     }
 

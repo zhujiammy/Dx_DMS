@@ -134,6 +134,33 @@
                     android:text="产品管理"
                     android:textSize="14sp" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.example.zhujia.dx_dms.Tools.MaskableImageView
+
+                    android:id="@+id/customermanagement_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:src="@mipmap/customer"
+                    android:text="page1"
+                    android:textColor="@color/monsoon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="客户管理"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </com.example.zhujia.dx_dms.Tools.FixedGridLayout>
 
 

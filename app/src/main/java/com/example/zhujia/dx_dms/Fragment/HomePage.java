@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.zhujia.dx_dms.Activity.CustomerManagementAcitivity;
 import com.example.zhujia.dx_dms.Activity.GroupManagementActivity;
 import com.example.zhujia.dx_dms.Activity.SettingActivity;
 import com.example.zhujia.dx_dms.Activity.SystemManagementActivity;
@@ -30,7 +31,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class HomePage extends Fragment implements View.OnClickListener {
-    private MaskableImageView groupinformation_btn,systemmanagement_btn,productmanagement_btn;
+    private MaskableImageView groupinformation_btn,systemmanagement_btn,productmanagement_btn,customermanagement_btn;
     private TextView balance;
     private String userName,comp,business_id,password;
     private CircleImageView profile_image;
@@ -72,6 +73,8 @@ public class HomePage extends Fragment implements View.OnClickListener {
         systemmanagement_btn.setOnClickListener(syslistener);
         productmanagement_btn=(MaskableImageView)view.findViewById(R.id.productmanagement_btn);
         productmanagement_btn.setOnClickListener(produlistener);
+        customermanagement_btn=(MaskableImageView)view.findViewById(R.id.customermanagement_btn);
+        customermanagement_btn.setOnClickListener(customerlistener);
         balance=(TextView)view.findViewById(R.id.balance);
         balance.setText(userName);
     }
@@ -100,6 +103,15 @@ public class HomePage extends Fragment implements View.OnClickListener {
         @Override
         public void onClick() {
             Intent intent=new Intent(getContext(), productmanagementActivity.class);
+            startActivity(intent);
+        }
+    };
+
+    //客户管理
+    MaskableImageView.OnClickListener customerlistener=new MaskableImageView.OnClickListener() {
+        @Override
+        public void onClick() {
+            Intent intent=new Intent(getContext(), CustomerManagementAcitivity.class);
             startActivity(intent);
         }
     };

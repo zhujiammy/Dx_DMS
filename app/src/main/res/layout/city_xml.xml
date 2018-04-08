@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp">
             <ListView
-                android:id="@+id/listView"
+                android:id="@+id/province_listview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -38,7 +38,16 @@
             </ListView>
 
             <ListView
-                android:id="@+id/subListView"
+                android:id="@+id/city_ListView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="#e4e3de"
+                >
+            </ListView>
+            <ListView
+                android:id="@+id/district_ListView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"

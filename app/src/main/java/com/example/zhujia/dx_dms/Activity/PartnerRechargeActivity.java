@@ -8,21 +8,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zhujia.dx_dms.Adapter.GroupinFormation_Adapter;
-import com.example.zhujia.dx_dms.Adapter.SimpleTreeAdapter;
-import com.example.zhujia.dx_dms.Data.BaseActivity;
+import com.example.zhujia.dx_dms.Adapter.PartnerAccountAdapter;
+import com.example.zhujia.dx_dms.Adapter.PartnerRechargeAdapter;
 import com.example.zhujia.dx_dms.Data.Data;
 import com.example.zhujia.dx_dms.R;
 import com.example.zhujia.dx_dms.Tools.Net.Constant;
@@ -30,9 +27,6 @@ import com.example.zhujia.dx_dms.Tools.Net.HttpUtils;
 import com.example.zhujia.dx_dms.Tools.OnLoadMoreListener;
 import com.example.zhujia.dx_dms.Tools.OnRefreshListener;
 import com.example.zhujia.dx_dms.Tools.SuperRefreshRecyclerView;
-import com.hmy.popwindow.PopWindow;
-import com.multilevel.treelist.Node;
-import com.multilevel.treelist.TreeListViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,47 +37,35 @@ import java.util.List;
 
 /**
  * Created by ZHUJIA on 2018/3/14.
- * 集团基础信息
+ * 充值列表
  */
 
-public class GroupinFormation_Activity extends BaseActivity implements View.OnClickListener,OnRefreshListener,OnLoadMoreListener {
+public class PartnerRechargeActivity extends AppCompatActivity implements View.OnClickListener,OnRefreshListener,OnLoadMoreListener {
 
 
     private Toolbar toolbar;
     private SharedPreferences sharedPreferences;
-    private String business_id,departmentId;
-    private String params;
     private int pageindex=1;
     JSONObject object;
     JSONObject pager;
-    private int istouch=0;
-    int num = 0;
     private ViewGroup.LayoutParams lp;
     boolean hasMoreData;
     private Handler mHandler;
     private List<Data> mListData=new ArrayList<>();
     JSONObject reslutJSONObject;
     JSONArray contentjsonarry;
-    JSONObject contentjsonobject;
-    private PopWindow popWindow;
-    private Button ok_btn;
-    private   View customView;
     public static final int  REQUEST_CODE=1001;
-    private GroupinFormation_Adapter adapter;
-    private TreeListViewAdapter mAdapter;
-    ListView mTree;
+    private PartnerRechargeAdapter adapter;
     private  int total;
     private Intent intent;
-
     private SuperRefreshRecyclerView recyclerView;
     private TextView text;
-    private String type,token;
-    private String group_id,list;
+    private String type,token,list,list1,list2,list3;
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.groupinformation_xml);
+        setContentView(R.layout.public_xml);
         intent=getIntent();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -100,8 +82,11 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
         type=intent.getStringExtra("type");
         initUI();
         loaddata();//加载列表数据
+        loadstatues();
         loadstatue();
-        adapter=new GroupinFormation_Adapter(this,getData());
+        getPartnerRechargeStatus();//充值状态
+        getPartnerRechargeTypes();//充值类型
+        adapter=new PartnerRechargeAdapter(this,getData());
 
     }
 
@@ -115,34 +100,34 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
         recyclerView.setLoadingMoreEnable(true);
         recyclerView.setHasFixedSize(true);
         text=(TextView) findViewById(R.id.text1);
-        text.setText("集团基础信息");
+        text.setText("充值列表");
 
-        customView = View.inflate(GroupinFormation_Activity.this,R.layout.permissions_pop_xml, null);
-        ok_btn=(Button)customView.findViewById(R.id.ok_btn);
-        ok_btn.setOnClickListener(this);
-        popWindow = new PopWindow.Builder(GroupinFormation_Activity.this)
-                .setStyle(PopWindow.PopWindowStyle.PopUp)
-                .setView(customView)
-                .create();
-         mTree = (ListView) customView.findViewById(R.id.lv_tree);
-        //第一个参数  RecyclerView
-        //第二个参数  上下文
-        //第三个参数  数据集
-        //第四个参数  默认展开层级数 0为不展开
-        //第五个参数  展开的图标
-        //第六个参数  闭合的图标
-
-        mAdapter = new SimpleTreeAdapter(mTree, GroupinFormation_Activity.this,
-                mDatas, 1,R.mipmap.tree_ex,R.mipmap.tree_ec);
-
-        mTree.setAdapter(mAdapter);
-        Log.e("TAG", "mDatas: "+mDatas);
 
 
     }
 
+    //客户列表
+    private void  loadstatues(){
+        new HttpUtils().postJson(Constant.APPURLS+"partner/partnerinfo/list","{}",token,new HttpUtils.HttpCallback() {
+            @Override
+            public void onSuccess(String data) {
+                // TODO Auto-generated method stub
+                com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
+
+                Message msg= Message.obtain(
+                        mHandler,7,data
+                );
+                mHandler.sendMessage(msg);
+            }
+
+        });
+    }
+
+
+
+    //付款方式
     private void  loadstatue(){
-        new HttpUtils().Post(Constant.APPURLS+"group/groupbase/query/useStatus",token,new HttpUtils.HttpCallback() {
+        new HttpUtils().Post(Constant.APPURLS+"partner/partnerbank/paymentTypeEnums",token,new HttpUtils.HttpCallback() {
             @Override
             public void onSuccess(String data) {
                 // TODO Auto-generated method stub
@@ -157,26 +142,67 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
         });
     }
 
-    private void loaddata(){
+    private void getPartnerRechargeStatus(){
+        new HttpUtils().Post(Constant.APPURLS+"partner/partnerrecharge/getPartnerRechargeStatus",token,new HttpUtils.HttpCallback() {
+            @Override
+            public void onSuccess(String data) {
+                // TODO Auto-generated method stub
+                com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
 
-       object = new JSONObject();
-       pager=new JSONObject();
+                Message msg= Message.obtain(
+                        mHandler,8,data
+                );
+                mHandler.sendMessage(msg);
+            }
+
+        });
+    }
+
+    private void getPartnerRechargeTypes(){
+        new HttpUtils().Post(Constant.APPURLS+"partner/partnerrecharge/getPartnerRechargeTypes",token,new HttpUtils.HttpCallback() {
+            @Override
+            public void onSuccess(String data) {
+                // TODO Auto-generated method stub
+                com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
+
+                Message msg= Message.obtain(
+                        mHandler,9,data
+                );
+                mHandler.sendMessage(msg);
+            }
+
+        });
+    }
+
+    private void loaddata(){
+        object = new JSONObject();
+        pager=new JSONObject();
         try {
             //object.put("id","1");
             JSONArray jsonArray=new JSONArray();
-            pager.put("searchCreateTimeEnd","");
-            pager.put("searchCreateTimeStart","");
-            pager.put("searchExpireTimeEnd","");
-            pager.put("searchExpireTimeStart","");
-            pager.put("likeGroupCode","");
-            pager.put("likeGroupName","");
-            pager.put("searchUseStatus",jsonArray);
+            pager.put("likePaymentAccount","");
+            pager.put("likePaymentNo","");
+            pager.put("likePaymentNote","");
+            pager.put("likePaymentPerson","");
+            pager.put("likeReceiveAccount","");
+            pager.put("likeReceiveNo","");
+            pager.put("likeRechargeNo","");
+            pager.put("likeTransNo","");
+            pager.put("searchPaymentDateBegin","");
+            pager.put("searchPaymentDateEnd","");
+            pager.put("searchReceiveDateBegin","");
+            pager.put("searchReceiveDateEnd","");
+            pager.put("searchPartnerId",jsonArray);
+            pager.put("searchPaymentType",jsonArray);
+            pager.put("searchReceiveType",jsonArray);
+            pager.put("searchRechargeType",jsonArray);
+            pager.put("searchStatus",jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         String json=pager.toString();
-        String params="currentPage="+pageindex+"&"+"pageSize="+"10"+"&"+"sortName="+"id"+"&"+"sortType="+"desc";
-        new HttpUtils().postJson(Constant.APPURLS+"group/groupbase/page?"+params,json,token,new HttpUtils.HttpCallback() {
+        String params="currentPage="+pageindex+"&"+"pageSize="+"15"+"&"+"sortName="+"id"+"&"+"sortType="+"desc";
+        new HttpUtils().postJson(Constant.APPURLS+"partner/partnerrecharge/page?"+params,json,token,new HttpUtils.HttpCallback() {
 
             @Override
             public void onSuccess(String data) {
@@ -195,7 +221,6 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
     }
 
 
-
     //加载更多
     private void initItemMoreData() {
         object = new JSONObject();
@@ -203,19 +228,29 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
         try {
             //object.put("id","1");
             JSONArray jsonArray=new JSONArray();
-            pager.put("searchCreateTimeEnd","");
-            pager.put("searchCreateTimeStart","");
-            pager.put("searchExpireTimeEnd","");
-            pager.put("searchExpireTimeStart","");
-            pager.put("likeGroupCode","");
-            pager.put("likeGroupName","");
-            pager.put("searchUseStatus",jsonArray);
+            pager.put("likePaymentAccount","");
+            pager.put("likePaymentNo","");
+            pager.put("likePaymentNote","");
+            pager.put("likePaymentPerson","");
+            pager.put("likeReceiveAccount","");
+            pager.put("likeReceiveNo","");
+            pager.put("likeRechargeNo","");
+            pager.put("likeTransNo","");
+            pager.put("searchPaymentDateBegin","");
+            pager.put("searchPaymentDateEnd","");
+            pager.put("searchReceiveDateBegin","");
+            pager.put("searchReceiveDateEnd","");
+            pager.put("searchPartnerId",jsonArray);
+            pager.put("searchPaymentType",jsonArray);
+            pager.put("searchReceiveType",jsonArray);
+            pager.put("searchRechargeType",jsonArray);
+            pager.put("searchStatus",jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         String json=pager.toString();
-        String params="currentPage="+pageindex+1+"&"+"pageSize="+"10"+"&"+"sortName="+"id"+"&"+"sortType="+"desc";
-        new HttpUtils().postJson(Constant.APPURLS+"group/groupbase/page?"+params,json,token,new HttpUtils.HttpCallback() {
+        String params="currentPage="+pageindex+1+"&"+"pageSize="+"15"+"&"+"sortName="+"id"+"&"+"sortType="+"desc";
+        new HttpUtils().postJson(Constant.APPURLS+"partner/partnerrecharge/page?"+params,json,token,new HttpUtils.HttpCallback() {
 
             @Override
             public void onSuccess(String data) {
@@ -269,13 +304,29 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
                 rechargData=new Data();
                 JSONObject object=contentjsonarry.getJSONObject(i);
                 rechargData.setId(object.getString("id"));
-                rechargData.setCompanyCount(object.getString("companyCount"));
-                rechargData.setCreateTime(object.getString("createTime"));
-                rechargData.setExpireTime(object.getString("expireTime"));
-                rechargData.setGroupCode(object.getString("groupCode"));
-                rechargData.setGroupName(object.getString("groupName"));
-                rechargData.setUseStatus(object.getString("useStatus"));
+                rechargData.setPartnerId(object.getString("partnerId"));
+                rechargData.setPaymentAccount(object.getString("paymentAccount"));
+                rechargData.setPaymentImg(object.getString("paymentImg"));
+                rechargData.setPaymentNo(object.getString("paymentNo"));
+                rechargData.setPaymentNote(object.getString("paymentNote"));
+                rechargData.setPaymentType(object.getString("paymentType"));
+                rechargData.setReceiveAccount(object.getString("receiveAccount"));
+                rechargData.setReceiveNo(object.getString("receiveNo"));
+                rechargData.setReceiveType(object.getString("receiveType"));
+                rechargData.setRechargeType(object.getString("rechargeType"));
+                rechargData.setStatus(object.getString("status"));
+                rechargData.setTotalFee(object.getString("totalFee"));
+                rechargData.setPaymentPerson(object.getString("paymentPerson"));
+                rechargData.setReceiveFee(object.getString("receiveFee"));
+                rechargData.setReceiveImg(object.getString("receiveImg"));
+                rechargData.setReceiveNote(object.getString("receiveNote"));
+                rechargData.setReceivePerson(object.getString("receivePerson"));
+                rechargData.setRechargeNo(object.getString("rechargeNo"));
+                rechargData.setTransNo(object.getString("transNo"));
                 rechargData.setList(list);
+                rechargData.setStatuslist(list1);
+                rechargData.setList2(list2);
+                rechargData.setList3(list3);
                 mListData.add(rechargData);
             }
         }
@@ -304,41 +355,6 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
                             recyclerView.showData();
                             recyclerView.setRefreshing(false);
                             break;
-                        case 1:
-                            //返回item类型数据
-                            JSONArray jsonArray=new JSONArray(msg.obj.toString());
-
-                            List<Node> mlist = new ArrayList<>();
-                            mlist.clear();
-                            mDatas.clear();
-                            for(int i=0;i<jsonArray.length();i++){
-                                JSONObject object=jsonArray.getJSONObject(i);
-                                if(object.isNull("pId")){
-                                    mlist.add(new Node(object.getInt("id")+"",-1+"",object.getString("name")));
-                                }else {
-                                    mlist.add(new Node(object.getInt("id")+"",object.getInt("pId")+"",object.getString("name")));
-                                }
-                                if(object.getString("checked").equals("true")){
-                                    mlist.get(i).setChecked(true);
-                                }
-
-
-
-                            }
-                            mAdapter.addDataAll(mlist,0);
-                            Log.e("TAG", "mlist: "+mlist.size());
-
-                            break;
-                        case 2:
-                            //返回item类型数据
-                            JSONObject reslutJSONObject=new JSONObject(msg.obj.toString());
-                            if(reslutJSONObject.getString("code").equals("200")){
-                                Toast.makeText(GroupinFormation_Activity.this, "更新成功！", Toast.LENGTH_SHORT).show();
-                                recyclerView.setRefreshing(true);
-                                popWindow.dismiss();
-                            }
-
-                            break;
                         case 3:
                             adapter.notifyDataSetChanged();
                             recyclerView.setLoadingMore(false);
@@ -346,15 +362,20 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
                         case 4:
                             adapter.notifyDataSetChanged();
                             break;
-                        case 5:
-                            //返回item类型数据
-                            recyclerView.setRefreshing(true);
-                            break;
                         case 6:
+                            list1=msg.obj.toString();
+                            break;
+                        case 7:
                             list=msg.obj.toString();
                             break;
+                        case 8:
+                            list2=msg.obj.toString();
+                            break;
+                        case 9:
+                            list3=msg.obj.toString();
+                            break;
                         default:
-                            Toast.makeText(GroupinFormation_Activity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PartnerRechargeActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                             break;
                     }
                 }catch (JSONException e){
@@ -368,90 +389,9 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
     @Override
     public void onClick(View v) {
 
-        //更新权限
-        if(v==ok_btn){
-            StringBuilder sb = new StringBuilder();
-            //获取排序过的nodes
-            //如果不需要刻意直接用 mDatas既可
-            final List<Node> allNodes = mAdapter.getAllNodes();
-            for (int i = 0; i < allNodes.size(); i++) {
-                if (allNodes.get(i).isChecked()){
-                    sb.append(allNodes.get(i).getId()+",");
-                }
-            }
-
-            String strNodesName = sb.toString();
-            if (!TextUtils.isEmpty(strNodesName)){
-                update(strNodesName);
-            }else {
-                update("null");
-            }
-
-        }
 
     }
 
-
-    public void changeuserstatue(final int position, final String id){
-        new HttpUtils().Post(Constant.APPURLS+"group/groupbase/audit/"+id,token,new HttpUtils.HttpCallback() {
-
-            @Override
-            public void onSuccess(String data) {
-                // TODO Auto-generated method stub
-                com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
-
-                try {
-                    org.json.JSONObject reslutJSONObject=new org.json.JSONObject(data);
-
-                    if(reslutJSONObject.getString("code").equals("200")){
-
-                        Message msg= Message.obtain(
-                                mHandler,5
-                        );
-                        mHandler.sendMessage(msg);
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        });
-    }
-
-
-    //分配权限
-    private void update(String resourceId){
-
-
-        Log.e("TAG", "update: "+resourceId);
-        if(resourceId.equals("null")){
-            JSONArray array=new JSONArray();
-            params=array.toString();
-
-        }else {
-            JSONArray jsonArray1=new JSONArray();
-            jsonArray1.put(resourceId.substring(0,resourceId.length()-1));
-             params=jsonArray1.toString().replace("\"","").replace("\"","");
-        }
-
-        Log.e("TAG", "update: "+params);
-        new HttpUtils().postJson(Constant.APPURLS+"/group/groupbase/group/update/"+group_id,params,token,new HttpUtils.HttpCallback() {
-
-            @Override
-            public void onSuccess(String data) {
-                // TODO Auto-generated method stub
-                com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
-
-                Message msg= Message.obtain(
-                        mHandler,2,data
-                );
-                mHandler.sendMessage(msg);
-            }
-
-        });
-    }
 
 
     @Override
@@ -473,31 +413,12 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
         }
         if(id==R.id.add){
             //新增信息
-            intent=new Intent(this,AddGroupinformation_Activity.class);
+            intent=new Intent(this,AddPartnerRechargeActivity.class);
             intent.putExtra("type","1");
             startActivityForResult(intent,REQUEST_CODE);
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void shouw(String id){
-        group_id=id;
-        new HttpUtils().Post(Constant.APPURLS+"/group/groupbase/resource/"+id,token,new HttpUtils.HttpCallback() {
-
-            @Override
-            public void onSuccess(String data) {
-                // TODO Auto-generated method stub
-                com.example.zhujia.dx_dms.Tools.Log.printJson("tag",data,"header");
-
-                Message msg= Message.obtain(
-                        mHandler,1,data
-                );
-                mHandler.sendMessage(msg);
-            }
-
-        });
-        popWindow.show(customView);
     }
 
 

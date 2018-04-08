@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+   <!-- <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#E54141"
+        android:orientation="horizontal"
+        android:paddingRight="16dp">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp" />
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="264"
+            android:background="@null"
+            android:drawablePadding="8dp"
+            android:gravity="start|center_vertical"
+            android:hint="输入查询的关键字"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/iv_search"/>
+
+    </LinearLayout>-->
+   <RelativeLayout
+
+       android:background="@color/primary_darker"
+       android:gravity="center"
+       android:layout_width="match_parent"
+       android:layout_height="30dp">
+
+       <TextView
+           android:id="@+id/tv_recoad"
+           android:layout_width="80dp"
+           android:layout_alignParentLeft="true"
+           android:layout_centerInParent="true"
+           android:gravity="center_vertical"
+           android:layout_height="40dp"
+           android:layout_marginLeft="20dp"
+            android:textColor="@color/white"
+           android:text="历史记录" />
+       <TextView
+           android:layout_alignParentRight="true"
+           android:layout_centerInParent="true"
+           android:id="@+id/tv_clear"
+           android:layout_width="80dp"
+           android:gravity="right|center"
+           android:layout_height="40dp"
+           android:textColor="@color/primary_dark"
+           android:layout_marginRight="20dp"
+           android:text="清除" />
+   </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                >
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE"/>
+
+                <com.example.zhujia.dx_dms.Tools.Search_Listview
+                    android:id="@+id/listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </com.example.zhujia.dx_dms.Tools.Search_Listview>
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EEEEEE"/>
+
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="20dp"
+                android:background="#EEEEEE"/>
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
