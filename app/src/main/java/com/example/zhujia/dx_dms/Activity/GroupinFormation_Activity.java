@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import com.example.zhujia.dx_dms.Adapter.SimpleTreeAdapter;
 import com.example.zhujia.dx_dms.Data.BaseActivity;
 import com.example.zhujia.dx_dms.Data.Data;
 import com.example.zhujia.dx_dms.R;
+import com.example.zhujia.dx_dms.Tools.MultiSelectionSpinner;
 import com.example.zhujia.dx_dms.Tools.Net.Constant;
 import com.example.zhujia.dx_dms.Tools.Net.HttpUtils;
 import com.example.zhujia.dx_dms.Tools.OnLoadMoreListener;
@@ -65,20 +67,22 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
     JSONObject reslutJSONObject;
     JSONArray contentjsonarry;
     JSONObject contentjsonobject;
-    private PopWindow popWindow;
-    private Button ok_btn;
-    private   View customView;
+    private PopWindow popWindow,seachpopwindw;
+    private Button ok_btn,cancel,ok_btn1;
+    private   View customView,seachview;
     public static final int  REQUEST_CODE=1001;
     private GroupinFormation_Adapter adapter;
     private TreeListViewAdapter mAdapter;
     ListView mTree;
     private  int total;
     private Intent intent;
-
+    private MultiSelectionSpinner searchUseStatus;
     private SuperRefreshRecyclerView recyclerView;
-    private TextView text;
+    private TextView text,likeGroupName,likeGroupCode;
     private String type,token;
     private String group_id,list;
+    private List<String> KEY=new ArrayList<>();
+    private List<String> VALUE=new ArrayList<>();
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,6 +140,18 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
                 mDatas, 1,R.mipmap.tree_ex,R.mipmap.tree_ec);
 
         mTree.setAdapter(mAdapter);
+        seachview=View.inflate(GroupinFormation_Activity.this,R.layout.groupinformation_seach, null);
+        ok_btn1=(Button)seachview.findViewById(R.id.okbtn);
+        ok_btn1.setOnClickListener(this);
+        cancel=(Button)seachview.findViewById(R.id.cancel);
+        cancel.setOnClickListener(this);
+        searchUseStatus=(MultiSelectionSpinner)seachview.findViewById(R.id.searchUseStatus);
+        likeGroupCode=(EditText)seachview.findViewById(R.id.likeGroupCode);
+        likeGroupName=(EditText)seachview.findViewById(R.id.likeGroupName);
+        seachpopwindw = new PopWindow.Builder(GroupinFormation_Activity.this)
+                .setStyle(PopWindow.PopWindowStyle.PopDown)
+                .setView(seachview)
+                .create();
         Log.e("TAG", "mDatas: "+mDatas);
 
 
@@ -161,16 +177,28 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
 
        object = new JSONObject();
        pager=new JSONObject();
+        JSONArray jsonArray;
         try {
             //object.put("id","1");
-            JSONArray jsonArray=new JSONArray();
+            if(searchUseStatus.getItemsAsString().equals("")){
+                jsonArray=new JSONArray();
+                pager.put("searchUseStatus",jsonArray);
+            }else {
+                Log.e("TAG", "loaddata: "+searchUseStatus.getItemsAsString());
+                jsonArray=new JSONArray();
+                String[] str1 = searchUseStatus.getItemsAsString().split(", ");
+                for(int i=0;i<str1.length;i++){
+                  jsonArray.put(str1[i]);
+                }
+                pager.put("searchUseStatus",jsonArray);
+            }
             pager.put("searchCreateTimeEnd","");
             pager.put("searchCreateTimeStart","");
             pager.put("searchExpireTimeEnd","");
             pager.put("searchExpireTimeStart","");
-            pager.put("likeGroupCode","");
-            pager.put("likeGroupName","");
-            pager.put("searchUseStatus",jsonArray);
+            pager.put("likeGroupCode",likeGroupCode.getText().toString());
+            pager.put("likeGroupName",likeGroupName.getText().toString());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -200,16 +228,28 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
     private void initItemMoreData() {
         object = new JSONObject();
         pager=new JSONObject();
+        JSONArray jsonArray;
         try {
             //object.put("id","1");
-            JSONArray jsonArray=new JSONArray();
+            if(searchUseStatus.getItemsAsString().equals("")){
+                jsonArray=new JSONArray();
+                pager.put("searchUseStatus",jsonArray);
+            }else {
+                Log.e("TAG", "loaddata: "+searchUseStatus.getItemsAsString());
+                jsonArray=new JSONArray();
+                String[] str1 = searchUseStatus.getItemsAsString().split(", ");
+                for(int i=0;i<str1.length;i++){
+                    jsonArray.put(str1[i]);
+                }
+                pager.put("searchUseStatus",jsonArray);
+            }
             pager.put("searchCreateTimeEnd","");
             pager.put("searchCreateTimeStart","");
             pager.put("searchExpireTimeEnd","");
             pager.put("searchExpireTimeStart","");
-            pager.put("likeGroupCode","");
-            pager.put("likeGroupName","");
-            pager.put("searchUseStatus",jsonArray);
+            pager.put("likeGroupCode",likeGroupCode.getText().toString());
+            pager.put("likeGroupName",likeGroupName.getText().toString());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -262,7 +302,7 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
     private void fillDataToList(JSONObject data) throws JSONException {
 
 
-        if(!data.isNull("rows")){
+        if(!data.getString("totalRows").equals("0")){
             contentjsonarry=data.getJSONArray("rows");
             Data rechargData=null;
             for(int i=0;i<contentjsonarry.length();i++){
@@ -352,6 +392,15 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
                             break;
                         case 6:
                             list=msg.obj.toString();
+                            JSONArray userstatue = new JSONArray(msg.obj.toString());
+                            searchUseStatus.set_defs();
+                            for(int i=0;i<userstatue.length();i++){
+                                JSONObject object1=userstatue.getJSONObject(i);
+                                KEY.add(object1.getString("key"));
+                                VALUE.add(object1.getString("value"));
+                                searchUseStatus.setItemsID(VALUE,KEY);
+
+                            }
                             break;
                         default:
                             Toast.makeText(GroupinFormation_Activity.this, "网络异常", Toast.LENGTH_SHORT).show();
@@ -389,6 +438,13 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
 
         }
 
+        if(v==ok_btn1){
+            loaddata();
+            seachpopwindw.dismiss();
+        }
+        if(v==cancel){
+            seachpopwindw.dismiss();
+        }
     }
 
 
@@ -469,7 +525,7 @@ public class GroupinFormation_Activity extends BaseActivity implements View.OnCl
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.seach_btn) {
-            loaddata();
+            seachpopwindw.show(seachview);
         }
         if(id==R.id.add){
             //新增信息

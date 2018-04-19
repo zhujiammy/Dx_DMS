@@ -358,6 +358,7 @@ public class RoleAcitivity extends BaseActivity implements View.OnClickListener,
             StringBuilder sb = new StringBuilder();
             //获取排序过的nodes
             //如果不需要刻意直接用 mDatas既可
+
             final List<Node> allNodes = mAdapter.getAllNodes();
             for (int i = 0; i < allNodes.size(); i++) {
                 if (allNodes.get(i).isChecked()){
